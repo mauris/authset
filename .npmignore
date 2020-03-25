@@ -1,0 +1,15 @@
+# tests
+test/
+
+# code specifications
+.editorconfig
+.eslintrc.js
+.gitattributes
+.gitignore
+.travis.yml
+
+# coverage files
+coverage
+
+# readme
+README.md
