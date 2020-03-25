@@ -27,3 +27,12 @@ test('Rule should return correct context identifiers', () => {
   expect(identifiers2).toBeInstanceOf(Set);
   expect(identifiers2.size).toBe(0);
 });
+
+test('Rule should return correct context identifiers for sets', () => {
+  const users = new Set(['testA', 'testB'])
+  const rule = new Rule({ users }, ['file:read', 'file:W']);
+
+  const identifiers1 = rule.getContextIdentifiers('users');
+  expect(identifiers1).toBeInstanceOf(Set);
+  expect(identifiers1).toBe(users);
+});
