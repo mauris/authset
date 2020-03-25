@@ -1,7 +1,7 @@
 const accessMapping = require('./accessMapping');
 
 function Rule(contexts, permissions) {
-  if (!this) {
+  if (!(this instanceof Rule)) {
     throw new Error('Invalid usage of Rule: use the `new` keyword.');
   }
 

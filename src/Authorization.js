@@ -2,7 +2,7 @@ const accessMapping = require('./accessMapping');
 const RuleSet = require('./RuleSet');
 
 function Authorization(ruleSet) {
-  if (!this) {
+  if (!(this instanceof Authorization)) {
     throw new Error('Invalid usage of Authorization: use the `new` keyword.');
   }
 

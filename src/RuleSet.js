@@ -9,7 +9,7 @@ function RuleSet(contexts) {
     throw new Error('Invalid argument `contexts` provided.');
   }
 
-  if (!this) {
+  if (!(this instanceof RuleSet)) {
     throw new Error('Invalid usage of RuleSet: use the `new` keyword.');
   }
 
