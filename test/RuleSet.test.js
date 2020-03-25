@@ -77,4 +77,19 @@ test('RuleSet should add rules for multiple contexts correctly', () => {
   const permissions4 = ruleSet.getContextPermissions({ users: 'rack', groups: 'super' });
   expect(permissions4.size).toBe(1);
   expect(permissions4).toContain('admin:X');
+
+  const permissions5 = ruleSet.getContextPermissions({ users: ['test', 'rack'] });
+  expect(permissions5.size).toBe(2);
+  expect(permissions5).toContain('admin:X');
+  expect(permissions5).toContain('products:W');
+});
+
+test('RuleSet should reset correctly', () => {
+  const ruleSet = new RuleSet(['users']);
+  ruleSet.addRule(new Rule({ users: ['test'] }, ['files:R']));
+  ruleSet.reset();
+
+  const permissions = ruleSet.getContextPermissions({ users: 'test' });
+  expect(permissions).toBeInstanceOf(Set);
+  expect(permissions.size).toBe(0);
 });
