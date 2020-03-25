@@ -5,12 +5,12 @@ function unionInto(setA, setB) {
 }
 
 function RuleSet(contexts) {
-  if (!contexts || contexts.length === 0) {
-    throw new Error('Invalid argument `contexts` provided.');
-  }
-
   if (!(this instanceof RuleSet)) {
     throw new Error('Invalid usage of RuleSet: use the `new` keyword.');
+  }
+
+  if (!contexts || contexts.length === 0) {
+    throw new Error('Invalid argument `contexts` provided.');
   }
 
   const _rules = {};
