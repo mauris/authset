@@ -1,0 +1,1 @@
+module.exports = (permission) => permission.substring(permission.length - 2) === ':*';
