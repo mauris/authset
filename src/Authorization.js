@@ -1,4 +1,5 @@
 const accessMapping = require('./accessMapping');
+const Rule = require('./Rule');
 const RuleSet = require('./RuleSet');
 
 function Authorization(ruleSet) {
@@ -23,6 +24,11 @@ function Authorization(ruleSet) {
     const givenPermissions = ruleSet.getContextPermissions(contexts);
     const requestedPermission = `${resource}:${newAccess}`;
     return givenPermissions.has(requestedPermission);
+  };
+  
+  this.exportRule = (contexts) => {
+    const givenPermissions = ruleSet.getContextPermissions(contexts);
+    return new Rule(contexts, [...givenPermissions]);
   };
 }
 
