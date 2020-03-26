@@ -1,6 +1,10 @@
+const processPermission = require('./processPermission');
+const isWildcardPermission = require('./isWildcardPermission');
 const accessMapping = require('./accessMapping');
 const Rule = require('./Rule');
 const RuleSet = require('./RuleSet');
+
+const accessMappingValues = Object.values(accessMapping);
 
 function Authorization(ruleSet) {
   if (!(this instanceof Authorization)) {
@@ -11,19 +15,19 @@ function Authorization(ruleSet) {
     throw new Error('Invalid argument `ruleSet` given: must be an instance of `RuleSet`.');
   }
 
-  this.verify = (contexts, resource, access) => {
-    if (!resource || !access) {
+  this.verify = (contexts, permission) => {
+    const processedPermission = processPermission(permission);
+    if (!processedPermission) {
       throw new Error('Invalid resource or access given to Authorization.verify().');
     }
-
-    let newAccess = access.toUpperCase();
-    if (accessMapping[newAccess]) {
-      newAccess = accessMapping[newAccess];
+    
+    const givenPermissions = ruleSet.getContextPermissions(contexts);
+    if (isWildcardPermission(processedPermission)) {
+      const resource = processedPermission.split(':')[0];
+      return accessMappingValues.reduce((acc, cur) => (acc || givenPermissions.has(`${resource}:${cur}`)), false);
     }
 
-    const givenPermissions = ruleSet.getContextPermissions(contexts);
-    const requestedPermission = `${resource}:${newAccess}`;
-    return givenPermissions.has(requestedPermission);
+    return givenPermissions.has(processedPermission);
   };
   
   this.exportRule = (contexts) => {

@@ -1,4 +1,4 @@
-const accessMapping = require('./accessMapping');
+const processPermission = require('./processPermission');
 
 function Rule(contexts, permissions) {
   if (!(this instanceof Rule)) {
@@ -7,17 +7,7 @@ function Rule(contexts, permissions) {
 
   const _permissions = new Set(
     permissions
-      .map((permission) => {
-        const [resource, access] = permission.split(':');
-        if (!resource || !access) {
-          return null;
-        }
-        let newAccess = access.toUpperCase();
-        if (accessMapping[newAccess]) {
-          newAccess = accessMapping[newAccess];
-        }
-        return `${resource}:${newAccess}`;
-      })
+      .map(processPermission)
       .filter(permission => Boolean(permission))
   );
 
