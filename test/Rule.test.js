@@ -40,7 +40,7 @@ test('Rule should return correct context identifiers for sets', () => {
 
 test('Rule should ignore invalid written permissions', () => {
   const users = new Set(['testA', 'testB'])
-  const rule = new Rule({ users }, ['file', 'file:']);
+  const rule = new Rule({ users }, [null, ':']);
 
   const permissions = rule.getPermissions();
   expect(permissions).toBeInstanceOf(Set);
